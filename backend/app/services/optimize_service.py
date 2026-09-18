@@ -1,8 +1,12 @@
 import logging
 
-from app.schemas import DirectiveInterpretation
+from app.schemas import DirectiveInterpretation, OptimizeRequest
+from app.utils import gridwise_bridge  # noqa: F401  (sys.path bootstrap, keep first)
 from app.utils.encoder import encode_request
 from app.utils.llm import generate_json
+
+from gridwise.directives import validate_interpretation
+from gridwise.pipeline import build_response
 
 logger = logging.getLogger(__name__)
 
@@ -164,3 +168,37 @@ def _clean_hours(hours: object) -> list[int]:
         return []
     valid = {h for h in hours if isinstance(h, int) and not isinstance(h, bool) and 0 <= h <= 23}
     return sorted(valid)
+
+
+def _all_no_op(note_count: int) -> list[dict]:
+    return [
+        {
+            "note_index": i,
+            "applies": False,
+            "directive_type": "no_op",
+            "structured_adjustment": None,
+            "explanation": NO_OP_EXPLANATION,
+        }
+        for i in range(note_count)
+    ]
+
+
+async def run_optimize(payload: OptimizeRequest) -> dict:
+    """POST /optimize-energy: LLM interpretation -> guardrails -> gridwise optimizer."""
+    request = payload.model_dump()
+    request["hours"] = sorted(request["hours"], key=lambda row: row["hour"])
+
+    interpretations = await parse_op_notes(
+        payload.operator_notes, request["battery"], request["hours"]
+    )
+    directive_interpretation = [entry.model_dump() for entry in interpretations]
+
+    errors = validate_interpretation(directive_interpretation, len(payload.operator_notes))
+    if errors:
+        # _normalize already guarantees spec-valid entries; this is a last-resort
+        # net against a shape neither of us anticipated. Never crash, never
+        # invent a directive -> fall back to the always-safe no_op interpretation.
+        logger.error("[guardrail] directive_interpretation failed validation: %s", errors)
+        directive_interpretation = _all_no_op(len(payload.operator_notes))
+
+    return build_response(request, directive_interpretation)
