@@ -1,0 +1,737 @@
+{
+  "scope": "Robustness only: official valid scoring scenarios are guaranteed feasible.",
+  "cases": [
+    {
+      "label": "Final reserve exceeds initial energy",
+      "input": {
+        "scenario_id": "INFEASIBLE-001",
+        "operator_notes": [
+          "Keep 3 kWh in reserve from 23:00 until 24:00."
+        ],
+        "hours": [
+          {
+            "hour": 0,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 1,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 2,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 3,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 4,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 5,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 6,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 7,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 8,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 9,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 10,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 11,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 12,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 13,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 14,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 15,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 16,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 17,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 18,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 19,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 20,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 21,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 22,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 23,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          }
+        ],
+        "battery": {
+          "capacity_kwh": 10,
+          "initial_energy_kwh": 2,
+          "minimum_energy_kwh": 0,
+          "max_charge_kwh_per_hour": 10,
+          "max_discharge_kwh_per_hour": 10
+        }
+      },
+      "ground_truth": [
+        {
+          "note_index": 0,
+          "applies": true,
+          "directive_type": "minimum_battery_reserve",
+          "structured_adjustment": {
+            "hours": [
+              23
+            ],
+            "minimum_energy_kwh": 3
+          },
+          "explanation": "Ground truth authored for this synthetic test."
+        }
+      ],
+      "expected": {
+        "result": "infeasible",
+        "http_status": "Not prescribed; controlled failure, never fabricate a valid plan."
+      }
+    },
+    {
+      "label": "No energy available under zero grid cap",
+      "input": {
+        "scenario_id": "INFEASIBLE-002",
+        "operator_notes": [
+          "Grid import capped at 0 kWh from 00:00 until 01:00."
+        ],
+        "hours": [
+          {
+            "hour": 0,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 1,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 2,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 3,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 4,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 5,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 6,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 7,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 8,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 9,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 10,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 11,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 12,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 13,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 14,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 15,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 16,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 17,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 18,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 19,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 20,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 21,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 22,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 23,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          }
+        ],
+        "battery": {
+          "capacity_kwh": 0,
+          "initial_energy_kwh": 0,
+          "minimum_energy_kwh": 0,
+          "max_charge_kwh_per_hour": 10,
+          "max_discharge_kwh_per_hour": 10
+        }
+      },
+      "ground_truth": [
+        {
+          "note_index": 0,
+          "applies": true,
+          "directive_type": "max_grid_window",
+          "structured_adjustment": {
+            "hours": [
+              0
+            ],
+            "max_grid_kwh": 0
+          },
+          "explanation": "Ground truth authored for this synthetic test."
+        }
+      ],
+      "expected": {
+        "result": "infeasible",
+        "http_status": "Not prescribed; controlled failure, never fabricate a valid plan."
+      }
+    },
+    {
+      "label": "Reserve ramp exceeds charge rate",
+      "input": {
+        "scenario_id": "INFEASIBLE-003",
+        "operator_notes": [
+          "Keep at least 2 kWh from 00:00 until 01:00."
+        ],
+        "hours": [
+          {
+            "hour": 0,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 1,
+            "demand_kwh": 2,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 2,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 3,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 4,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 5,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 6,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 7,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 8,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 9,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 10,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 11,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 12,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 13,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 14,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 15,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 16,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 17,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 18,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 19,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 20,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 21,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 22,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 23,
+            "demand_kwh": 0,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          }
+        ],
+        "battery": {
+          "capacity_kwh": 10,
+          "initial_energy_kwh": 0,
+          "minimum_energy_kwh": 0,
+          "max_charge_kwh_per_hour": 1,
+          "max_discharge_kwh_per_hour": 10
+        }
+      },
+      "ground_truth": [
+        {
+          "note_index": 0,
+          "applies": true,
+          "directive_type": "minimum_battery_reserve",
+          "structured_adjustment": {
+            "hours": [
+              0
+            ],
+            "minimum_energy_kwh": 2
+          },
+          "explanation": "Ground truth authored for this synthetic test."
+        }
+      ],
+      "expected": {
+        "result": "infeasible",
+        "http_status": "Not prescribed; controlled failure, never fabricate a valid plan."
+      }
+    },
+    {
+      "label": "Cap forces discharge but discharge forbidden",
+      "input": {
+        "scenario_id": "INFEASIBLE-004",
+        "operator_notes": [
+          "Grid intake capped at 0 kWh from 00:00 until 01:00.",
+          "Do not discharge from 00:00 until 01:00."
+        ],
+        "hours": [
+          {
+            "hour": 0,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 1,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 2,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 3,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 4,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 5,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 6,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 7,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 8,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 9,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 10,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 11,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 12,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 13,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 14,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 15,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 16,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 17,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 18,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 19,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 20,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 21,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 22,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          },
+          {
+            "hour": 23,
+            "demand_kwh": 1,
+            "solar_kwh": 0,
+            "tariff_bdt_per_kwh": 1
+          }
+        ],
+        "battery": {
+          "capacity_kwh": 10,
+          "initial_energy_kwh": 5,
+          "minimum_energy_kwh": 0,
+          "max_charge_kwh_per_hour": 10,
+          "max_discharge_kwh_per_hour": 10
+        }
+      },
+      "ground_truth": [
+        {
+          "note_index": 0,
+          "applies": true,
+          "directive_type": "max_grid_window",
+          "structured_adjustment": {
+            "hours": [
+              0
+            ],
+            "max_grid_kwh": 0
+          },
+          "explanation": "Ground truth authored for this synthetic test."
+        },
+        {
+          "note_index": 1,
+          "applies": true,
+          "directive_type": "no_discharge_window",
+          "structured_adjustment": {
+            "hours": [
+              0
+            ]
+          },
+          "explanation": "Ground truth authored for this synthetic test."
+        }
+      ],
+      "expected": {
+        "result": "infeasible",
+        "http_status": "Not prescribed; controlled failure, never fabricate a valid plan."
+      }
+    }
+  ]
+}
