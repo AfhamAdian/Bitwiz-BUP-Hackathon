@@ -1,21 +1,19 @@
-import json
 import logging
 import re
 import time
 from typing import Any
 
 from app.config import get_settings
+from app.utils.directive_validation import strict_json
 from app.utils.llms import gemini, groq, omniroute
 from app.utils.llm_base import (
-    SNIPPET,
     LLMError,
+    ModelOutputError,
     ProviderResult,
     describe_exception,
 )
 
 logger = logging.getLogger(__name__)
-
-_FENCE = re.compile(r"^```(?:json)?\s*|\s*```$", re.MULTILINE)
 
 PROVIDERS = {module.NAME: module for module in (gemini, groq, omniroute)}
 
@@ -44,15 +42,15 @@ def provider_chain() -> list[tuple[str, int]]:
 
 
 def _parse_json(result: ProviderResult) -> Any:
-    cleaned = _FENCE.sub("", result.text or "").strip()
-    if not cleaned:
-        raise LLMError(f"empty completion (upstream_model={result.model})")
+    original = result.text if isinstance(result.text, str) else ''
+    cleaned = original.strip()
+    fence = re.fullmatch(r'```(?:json)?\s*\n?(.*?)\n?```', cleaned, re.S | re.I)
+    if fence:
+        cleaned = fence.group(1)
     try:
-        return json.loads(cleaned)
-    except json.JSONDecodeError as exc:
-        raise LLMError(
-            f"malformed JSON (upstream_model={result.model}): {exc}; raw={cleaned[:SNIPPET]!r}"
-        ) from exc
+        return strict_json(cleaned)
+    except (ValueError, RecursionError):
+        raise ModelOutputError(original) from None
 
 
 async def generate_json(system_prompt: str, user_prompt: str) -> Any:
@@ -71,6 +69,9 @@ async def generate_json(system_prompt: str, user_prompt: str) -> Any:
         try:
             result = await provider.complete(system_prompt, user_prompt, slot)
             payload = _parse_json(result)
+        except ModelOutputError:
+            # Return to the repair loop with this output; don't silently fall back.
+            raise
         except Exception as exc:
             detail = describe_exception(exc)
             failures.append(f"{label}: {detail}")

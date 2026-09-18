@@ -1,13 +1,17 @@
-import json
 from typing import NamedTuple
 
 import httpx
 
-SNIPPET = 500
-
 
 class LLMError(RuntimeError):
     pass
+
+
+class ModelOutputError(LLMError):
+    """Invalid completed output, retained only for a targeted repair prompt."""
+    def __init__(self, previous_output):
+        self.previous_output = previous_output
+        super().__init__('Model returned invalid JSON.')
 
 
 class ProviderResult(NamedTuple):
@@ -18,9 +22,8 @@ class ProviderResult(NamedTuple):
 
 
 def describe_exception(exc: BaseException) -> str:
-    """httpx timeout/connect errors stringify to '', so always keep the class name."""
-    message = str(exc).strip()
-    return f"{type(exc).__name__}: {message}" if message else f"{type(exc).__name__} (no message)"
+    """Log the error category without echoing provider bodies or credential values."""
+    return type(exc).__name__
 
 
 def pick_key(keys: list[str], slot: int, env_name: str) -> str:
@@ -38,7 +41,7 @@ async def post_json(
         response = await client.post(url, json=payload, headers=headers)
 
     if response.status_code >= 400:
-        raise LLMError(f"HTTP {response.status_code}: {response.text[:SNIPPET]}")
+        raise LLMError(f"HTTP {response.status_code}")
 
     return response.json(), response.headers
 
@@ -48,10 +51,8 @@ def pluck(body: dict, *path) -> str:
         value = body
         for key in path:
             value = value[key]
-    except (KeyError, IndexError, TypeError) as exc:
-        raise LLMError(
-            f"unexpected response shape ({exc}): {json.dumps(body)[:SNIPPET]}"
-        ) from exc
+    except (KeyError, IndexError, TypeError):
+        raise LLMError('Unexpected provider response shape.') from None
     return value
 
 
