@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-router = APIRouter(prefix="/optimize", tags=["optimize"])
+router = APIRouter(prefix="/optimize-energy", tags=["optimize"])
 
 
 @router.post("/")

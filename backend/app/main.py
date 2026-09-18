@@ -13,3 +13,5 @@ app.include_router(optimize.router)
 @app.get("/")
 async def root():
     return {"status": "ok"}
+
+
