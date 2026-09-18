@@ -12,7 +12,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from gridwise import (  # noqa: E402
+from energy_optimizer import (  # noqa: E402
     TOLERANCE,
     build_response,
     optimize,

@@ -2,11 +2,11 @@
 from pathlib import Path
 import sys
 
-ROOT = str(Path(__file__).resolve().parents[3])
+ROOT = str(Path(__file__).resolve().parents[2])
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-from gridwise import build_response, replay_validate, resolve
+from energy_optimizer import build_response, replay_validate, resolve
 
 
 def optimize(request, directives):

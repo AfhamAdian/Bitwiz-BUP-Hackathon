@@ -19,7 +19,7 @@ import time
 import httpx
 import pytest
 
-from gridwise import replay_validate, resolve
+from energy_optimizer import replay_validate, resolve
 
 ROOT = Path(__file__).resolve().parents[2]
 CASES = json.loads((ROOT/'BUP_CSE_FEST_2026_Preli_Public_Sample_Cases.json').read_text(encoding='utf-8'))['cases']

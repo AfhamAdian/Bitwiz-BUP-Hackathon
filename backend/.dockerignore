@@ -1,0 +1,15 @@
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+.env
+.env.*
+!.env.example
+tests
+requirements-dev.txt
+pytest.ini
+unused
+.git
+.gitignore
+Dockerfile
+.dockerignore
