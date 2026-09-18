@@ -70,6 +70,25 @@ python -m pytest -q tests ../tests
 
 The suite contains **381 tests**, including 18 end-to-end TCP/HTTP tests that start a real API subprocess and local provider stub. Coverage includes single-call success, complete retry context, missing notes, wrong hours/factors, malformed JSON, invalid requests/model outputs, provider fallback, concurrent requests, error recovery, timeouts, 153 public/generated valid fixtures, and infeasible plans. Tests make no live provider requests; real-model accuracy and latency require configured credentials.
 
+## Docker fallback
+
+Image: `suprio85/gridwise:preli-v1` (Docker Hub). Built from `backend/Dockerfile`; binds `0.0.0.0:8000` inside the container and ships a built-in `/health` healthcheck. No secrets are baked in — `.dockerignore` excludes `.env`/`.env.*` and keeps only `.env.example`.
+
+```powershell
+docker pull suprio85/gridwise:preli-v1
+docker run --rm --env-file backend/.env -p 8000:8000 suprio85/gridwise:preli-v1
+```
+
+Health check:
+
+```powershell
+Invoke-RestMethod http://localhost:8000/health
+```
+
+Expected: HTTP 200 with `{"status":"ok"}`.
+
+Required environment-variable names (values stay in your private `backend/.env`, never in the image or repository): `PROVIDER_ORDER`, `GEMINI_API_KEY`, `GEMINI_MODEL`, `GEMINI_BASE_URL`, `GROQ_API_KEY`, `GROQ_API_KEY1`, `GROQ_API_KEY2`, `GROQ_MODEL`, `GROQ_MODEL1`, `GROQ_MODEL2`, `GROQ_BASE_URL`, `OMNIROUTE_API_KEY`, `OMNIROUTE_MODEL`, `OMNIROUTE_BASE_URL`, `LLM_TIMEOUT_SECONDS`, `LLM_CONNECT_TIMEOUT_SECONDS`. `/health` responds without any of these set; `/optimize-energy` requires working provider credentials.
+
 ## Limits
 
 Deterministic checks cannot prove arbitrary natural-language intent. A structurally valid but semantically wrong directive outside recognized time/quantity patterns may pass. In particular, a false `no_op` is not checked by a second model.
