@@ -34,6 +34,7 @@ async def interpretation_error_handler(request: Request, exc: InterpretationErro
 
 
 @app.get("/health")
+@app.head("/health")
 async def health():
     return {"status": "ok"}
 
