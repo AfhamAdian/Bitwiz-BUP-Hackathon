@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from app.schemas import ParseNotesRequest, ParseNotesResponse
 from app.services.optimize_service import parse_op_notes
 
-router = APIRouter(prefix="/test", tags=["test"])
+router = APIRouter(prefix="/optimize-energy/test", tags=["test"])
 
 
 @router.post("")

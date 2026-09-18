@@ -195,7 +195,7 @@ def test_test_endpoint_uses_same_validator(live_stack):
     payload = {k:case['input'][k] for k in ('operator_notes','battery','hours')}
     before = len(state['requests'])
     state['faults'].append('hours')
-    response = client.post('/test',json=payload)
+    response = client.post('/optimize-energy/test',json=payload)
     assert response.status_code == 200
     assert response.json()['directive_interpretation'][0]['structured_adjustment']['hours'] == [12,13]
     assert len(state['requests']) - before == 2
